@@ -265,3 +265,22 @@ module "records" {
     },
   ]
 }
+
+module "ansible" {
+  source                 = "terraform-aws-modules/ec2-instance/aws"
+  ami = data.aws_ami.centos8.id
+  name                   = "${local.ec2_name}-ansible"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [data.aws_ssm_parameter.vpn_sg_id.value]
+  subnet_id              = data.aws_subnet.selected.id #  default VPC 1a subnet
+  user_data = file("ec2-provision.sh")
+  tags = merge(
+    var.common_tags,
+    {
+      Component = "ansible"
+    },
+    {
+      Name = "${local.ec2_name}-ansible"
+    }
+  )
+}
