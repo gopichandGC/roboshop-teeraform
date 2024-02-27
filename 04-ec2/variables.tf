@@ -13,6 +13,6 @@ variable "environment" {
   default = "dev"
 }
 
-# variable "zone_name" {
-#   default = "techwithgopi.online"
-# }
+variable "zone_name" {
+  default = "techwithgopi.online"
+}
